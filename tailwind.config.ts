@@ -13,7 +13,15 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
       colors: {
+        "quadrant-do": "hsl(var(--quadrant-do))",
+        "quadrant-schedule": "hsl(var(--quadrant-schedule))",
+        "quadrant-delegate": "hsl(var(--quadrant-delegate))",
+        "quadrant-eliminate": "hsl(var(--quadrant-eliminate))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
