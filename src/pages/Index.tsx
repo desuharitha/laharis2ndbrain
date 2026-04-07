@@ -1,34 +1,37 @@
 import { useState } from 'react';
-import { Brain, Grid3X3, FolderOpen, Workflow } from 'lucide-react';
+import { Brain, Grid3X3, FolderOpen, Workflow, BookOpen } from 'lucide-react';
 import { QuickCapture } from '@/components/QuickCapture';
 import { QuadrantPanel } from '@/components/QuadrantPanel';
 import { ParaView } from '@/components/ParaView';
 import { CodePipeline } from '@/components/CodePipeline';
+import { DailyJournal } from '@/components/DailyJournal';
 import { StatsBar } from '@/components/StatsBar';
 import { useTasks } from '@/hooks/useTasks';
+import { useJournal } from '@/hooks/useJournal';
 import type { Quadrant } from '@/lib/types';
 
 const quadrantKeys: Quadrant[] = ['do', 'schedule', 'delegate', 'eliminate'];
 
-type ViewTab = 'eisenhower' | 'para' | 'code';
+type ViewTab = 'eisenhower' | 'para' | 'code' | 'journal';
 
 const tabs: { id: ViewTab; label: string; icon: React.ReactNode }[] = [
-  { id: 'eisenhower', label: 'Eisenhower', icon: <Grid3X3 className="h-3.5 w-3.5" /> },
+  { id: 'eisenhower', label: 'Matrix', icon: <Grid3X3 className="h-3.5 w-3.5" /> },
   { id: 'para', label: 'PARA', icon: <FolderOpen className="h-3.5 w-3.5" /> },
   { id: 'code', label: 'CODE', icon: <Workflow className="h-3.5 w-3.5" /> },
+  { id: 'journal', label: 'Journal', icon: <BookOpen className="h-3.5 w-3.5" /> },
 ];
 
 const Index = () => {
   const {
     tasks, addTask, toggleTask, deleteTask, moveTask,
-    setParaCategory, setCodeStage,
+    setParaCategory, setCodeStage, updateNote,
     byQuadrant, byPara, byCodeStage, stats,
   } = useTasks();
+  const journal = useJournal();
   const [activeTab, setActiveTab] = useState<ViewTab>('eisenhower');
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border">
         <div className="container max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
@@ -59,18 +62,17 @@ const Index = () => {
           <QuickCapture onAdd={addTask} />
         </section>
 
-        {/* Mobile stats */}
         <div className="sm:hidden">
           <StatsBar {...stats} />
         </div>
 
         {/* View Tabs */}
-        <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1 w-fit">
+        <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1 w-fit overflow-x-auto">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap ${
                 activeTab === tab.id
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:text-foreground'
@@ -82,7 +84,6 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Views */}
         {activeTab === 'eisenhower' && (
           <section>
             <div className="flex items-center gap-4 mb-4">
@@ -100,6 +101,7 @@ const Index = () => {
                   onMove={moveTask}
                   onSetPara={setParaCategory}
                   onSetCodeStage={setCodeStage}
+                  onUpdateNote={updateNote}
                 />
               ))}
             </div>
@@ -114,6 +116,7 @@ const Index = () => {
             onMove={moveTask}
             onSetPara={setParaCategory}
             onSetCodeStage={setCodeStage}
+            onUpdateNote={updateNote}
             byPara={byPara}
           />
         )}
@@ -126,7 +129,19 @@ const Index = () => {
             onMove={moveTask}
             onSetPara={setParaCategory}
             onSetCodeStage={setCodeStage}
+            onUpdateNote={updateNote}
             byCodeStage={byCodeStage}
+          />
+        )}
+
+        {activeTab === 'journal' && (
+          <DailyJournal
+            entries={journal.entries}
+            getEntry={journal.getEntry}
+            saveEntry={journal.saveEntry}
+            deleteEntry={journal.deleteEntry}
+            todayKey={() => journal.todayKey()}
+            tasks={tasks}
           />
         )}
       </main>

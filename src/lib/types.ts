@@ -14,6 +14,18 @@ export interface Task {
   tags?: string[];
 }
 
+export interface JournalEntry {
+  id: string;
+  date: string; // YYYY-MM-DD
+  gratitude: string;
+  wins: string;
+  lessons: string;
+  tomorrow: string;
+  freeform: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
 export const QUADRANT_META: Record<Quadrant, { label: string; subtitle: string; icon: string }> = {
   do: { label: 'Do', subtitle: 'Urgent & Important', icon: '🔥' },
   schedule: { label: 'Schedule', subtitle: 'Important, Not Urgent', icon: '📅' },
