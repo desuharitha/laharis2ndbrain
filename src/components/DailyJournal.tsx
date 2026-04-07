@@ -1,14 +1,17 @@
 import { useState, useMemo } from 'react';
 import { format, parseISO, isToday, isYesterday, subDays } from 'date-fns';
-import { BookOpen, ChevronLeft, ChevronRight, Sparkles, Trophy, Lightbulb, ArrowRight, PenLine, Trash2 } from 'lucide-react';
+import { BookOpen, ChevronLeft, ChevronRight, Sparkles, Trophy, Lightbulb, ArrowRight, PenLine, Trash2, Sun, AlignLeft } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import type { JournalEntry, Task } from '@/lib/types';
+
+const MORNING_PAGES_TARGET = 750; // ~3 pages worth of words
 
 interface Props {
   entries: JournalEntry[];
   getEntry: (date: string) => JournalEntry | undefined;
-  saveEntry: (date: string, fields: Partial<Pick<JournalEntry, 'gratitude' | 'wins' | 'lessons' | 'tomorrow' | 'freeform'>>) => void;
+  saveEntry: (date: string, fields: Partial<Pick<JournalEntry, 'gratitude' | 'wins' | 'lessons' | 'tomorrow' | 'freeform' | 'morningPages'>>) => void;
   deleteEntry: (date: string) => void;
   todayKey: () => string;
   tasks: Task[];
@@ -87,7 +90,11 @@ export function DailyJournal({ entries, getEntry, saveEntry, deleteEntry, todayK
     return count;
   }, [entries, today, getEntry]);
 
-  const hasContent = entry && (entry.gratitude || entry.wins || entry.lessons || entry.tomorrow || entry.freeform);
+  const hasContent = entry && (entry.gratitude || entry.wins || entry.lessons || entry.tomorrow || entry.freeform || entry.morningPages);
+
+  const morningPagesText = getValue('morningPages');
+  const morningPagesWordCount = morningPagesText.trim() ? morningPagesText.trim().split(/\s+/).length : 0;
+  const morningPagesProgress = Math.min((morningPagesWordCount / MORNING_PAGES_TARGET) * 100, 100);
 
   return (
     <div className="space-y-4">
@@ -118,6 +125,32 @@ export function DailyJournal({ entries, getEntry, saveEntry, deleteEntry, todayK
         >
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
         </button>
+      </div>
+
+      {/* Morning Pages */}
+      <div className="rounded-xl border border-primary/20 bg-card p-3">
+        <div className="flex items-center justify-between mb-2">
+          <label className="flex items-center gap-2 text-xs font-mono font-semibold text-primary">
+            <Sun className="h-3.5 w-3.5" />
+            Morning Pages
+          </label>
+          <span className="text-[10px] font-mono text-muted-foreground">
+            {morningPagesWordCount} / {MORNING_PAGES_TARGET} words
+          </span>
+        </div>
+        <Progress value={morningPagesProgress} className="h-1 mb-2" />
+        <Textarea
+          value={morningPagesText}
+          onChange={e => handleChange('morningPages', e.target.value)}
+          onBlur={() => handleBlur('morningPages')}
+          placeholder="Write freely — no editing, no judgment. Just let your thoughts flow..."
+          className="text-sm min-h-[180px] bg-muted/30 border-border/50 placeholder:text-muted-foreground/40 resize-none leading-relaxed"
+        />
+        {morningPagesWordCount >= MORNING_PAGES_TARGET && (
+          <p className="text-[10px] text-primary font-mono mt-1.5 flex items-center gap-1">
+            <Sparkles className="h-3 w-3" /> Target reached — great job!
+          </p>
+        )}
       </div>
 
       {/* Journal prompts */}

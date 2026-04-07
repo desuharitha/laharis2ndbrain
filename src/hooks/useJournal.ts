@@ -31,7 +31,7 @@ export function useJournal() {
     return getEntry(todayKey());
   }, [getEntry]);
 
-  const saveEntry = useCallback((date: string, fields: Partial<Pick<JournalEntry, 'gratitude' | 'wins' | 'lessons' | 'tomorrow' | 'freeform'>>) => {
+  const saveEntry = useCallback((date: string, fields: Partial<Pick<JournalEntry, 'gratitude' | 'wins' | 'lessons' | 'tomorrow' | 'freeform' | 'morningPages'>>) => {
     setEntries(prev => {
       const existing = prev.find(e => e.date === date);
       if (existing) {
@@ -45,6 +45,7 @@ export function useJournal() {
         lessons: '',
         tomorrow: '',
         freeform: '',
+        morningPages: '',
         ...fields,
         createdAt: Date.now(),
         updatedAt: Date.now(),

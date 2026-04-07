@@ -22,6 +22,7 @@ export interface JournalEntry {
   lessons: string;
   tomorrow: string;
   freeform: string;
+  morningPages: string;
   createdAt: number;
   updatedAt: number;
 }
