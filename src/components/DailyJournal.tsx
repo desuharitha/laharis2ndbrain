@@ -127,6 +127,32 @@ export function DailyJournal({ entries, getEntry, saveEntry, deleteEntry, todayK
         </button>
       </div>
 
+      {/* Morning Pages */}
+      <div className="rounded-xl border border-primary/20 bg-card p-3">
+        <div className="flex items-center justify-between mb-2">
+          <label className="flex items-center gap-2 text-xs font-mono font-semibold text-primary">
+            <Sun className="h-3.5 w-3.5" />
+            Morning Pages
+          </label>
+          <span className="text-[10px] font-mono text-muted-foreground">
+            {morningPagesWordCount} / {MORNING_PAGES_TARGET} words
+          </span>
+        </div>
+        <Progress value={morningPagesProgress} className="h-1 mb-2" />
+        <Textarea
+          value={morningPagesText}
+          onChange={e => handleChange('morningPages', e.target.value)}
+          onBlur={() => handleBlur('morningPages')}
+          placeholder="Write freely — no editing, no judgment. Just let your thoughts flow..."
+          className="text-sm min-h-[180px] bg-muted/30 border-border/50 placeholder:text-muted-foreground/40 resize-none leading-relaxed"
+        />
+        {morningPagesWordCount >= MORNING_PAGES_TARGET && (
+          <p className="text-[10px] text-primary font-mono mt-1.5 flex items-center gap-1">
+            <Sparkles className="h-3 w-3" /> Target reached — great job!
+          </p>
+        )}
+      </div>
+
       {/* Journal prompts */}
       <div className="space-y-3">
         {promptSections.map(section => {
