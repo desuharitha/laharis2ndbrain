@@ -9,6 +9,7 @@ interface Props {
   onMove: (id: string, q: Quadrant) => void;
   onSetPara: (id: string, p: ParaCategory) => void;
   onSetCodeStage: (id: string, s: CodeStage) => void;
+  onUpdateNote?: (id: string, note: string) => void;
   byPara: (p: ParaCategory) => Task[];
 }
 
