@@ -9,6 +9,7 @@ interface Props {
   onMove: (id: string, q: Quadrant) => void;
   onSetPara: (id: string, p: ParaCategory) => void;
   onSetCodeStage: (id: string, s: CodeStage) => void;
+  onUpdateNote?: (id: string, note: string) => void;
   byPara: (p: ParaCategory) => Task[];
 }
 
@@ -21,7 +22,7 @@ const borderColors: Record<ParaCategory, string> = {
   archive: 'border-t-muted-foreground',
 };
 
-export function ParaView({ tasks, onToggle, onDelete, onMove, onSetPara, onSetCodeStage, byPara }: Props) {
+export function ParaView({ tasks, onToggle, onDelete, onMove, onSetPara, onSetCodeStage, onUpdateNote, byPara }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4 mb-2">
@@ -63,6 +64,7 @@ export function ParaView({ tasks, onToggle, onDelete, onMove, onSetPara, onSetCo
                     onMove={onMove}
                     onSetPara={onSetPara}
                     onSetCodeStage={onSetCodeStage}
+                    onUpdateNote={onUpdateNote}
                     showMeta
                   />
                 ))}
@@ -75,6 +77,7 @@ export function ParaView({ tasks, onToggle, onDelete, onMove, onSetPara, onSetCo
                     onMove={onMove}
                     onSetPara={onSetPara}
                     onSetCodeStage={onSetCodeStage}
+                    onUpdateNote={onUpdateNote}
                     showMeta
                   />
                 ))}

@@ -10,6 +10,7 @@ interface Props {
   onMove: (id: string, q: Quadrant) => void;
   onSetPara?: (id: string, p: ParaCategory) => void;
   onSetCodeStage?: (id: string, s: CodeStage) => void;
+  onUpdateNote?: (id: string, note: string) => void;
 }
 
 const borderColors: Record<Quadrant, string> = {
@@ -26,7 +27,7 @@ const glowColors: Record<Quadrant, string> = {
   eliminate: 'shadow-quadrant-eliminate/5',
 };
 
-export function QuadrantPanel({ quadrant, tasks, onToggle, onDelete, onMove, onSetPara, onSetCodeStage }: Props) {
+export function QuadrantPanel({ quadrant, tasks, onToggle, onDelete, onMove, onSetPara, onSetCodeStage, onUpdateNote }: Props) {
   const meta = QUADRANT_META[quadrant];
   const active = tasks.filter(t => !t.completed);
   const done = tasks.filter(t => t.completed);
@@ -45,10 +46,10 @@ export function QuadrantPanel({ quadrant, tasks, onToggle, onDelete, onMove, onS
       </div>
       <div className="space-y-2 flex-1">
         {active.map(t => (
-          <TaskCard key={t.id} task={t} onToggle={onToggle} onDelete={onDelete} onMove={onMove} onSetPara={onSetPara} onSetCodeStage={onSetCodeStage} showMeta />
+          <TaskCard key={t.id} task={t} onToggle={onToggle} onDelete={onDelete} onMove={onMove} onSetPara={onSetPara} onSetCodeStage={onSetCodeStage} onUpdateNote={onUpdateNote} showMeta />
         ))}
         {done.map(t => (
-          <TaskCard key={t.id} task={t} onToggle={onToggle} onDelete={onDelete} onMove={onMove} onSetPara={onSetPara} onSetCodeStage={onSetCodeStage} showMeta />
+          <TaskCard key={t.id} task={t} onToggle={onToggle} onDelete={onDelete} onMove={onMove} onSetPara={onSetPara} onSetCodeStage={onSetCodeStage} onUpdateNote={onUpdateNote} showMeta />
         ))}
         {tasks.length === 0 && (
           <p className="text-xs text-muted-foreground/50 text-center py-6">No tasks yet</p>

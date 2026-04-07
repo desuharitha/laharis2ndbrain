@@ -9,6 +9,7 @@ interface Props {
   onMove: (id: string, q: Quadrant) => void;
   onSetPara: (id: string, p: ParaCategory) => void;
   onSetCodeStage: (id: string, s: CodeStage) => void;
+  onUpdateNote?: (id: string, note: string) => void;
   byCodeStage: (s: CodeStage) => Task[];
 }
 
@@ -35,7 +36,7 @@ const dotColors: Record<CodeStage, string> = {
   express: 'bg-code-express',
 };
 
-export function CodePipeline({ tasks, onToggle, onDelete, onMove, onSetPara, onSetCodeStage, byCodeStage }: Props) {
+export function CodePipeline({ tasks, onToggle, onDelete, onMove, onSetPara, onSetCodeStage, onUpdateNote, byCodeStage }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4 mb-2">
@@ -101,6 +102,7 @@ export function CodePipeline({ tasks, onToggle, onDelete, onMove, onSetPara, onS
                     onMove={onMove}
                     onSetPara={onSetPara}
                     onSetCodeStage={onSetCodeStage}
+                    onUpdateNote={onUpdateNote}
                   />
                 ))}
                 {done.map(t => (
@@ -112,6 +114,7 @@ export function CodePipeline({ tasks, onToggle, onDelete, onMove, onSetPara, onS
                     onMove={onMove}
                     onSetPara={onSetPara}
                     onSetCodeStage={onSetCodeStage}
+                    onUpdateNote={onUpdateNote}
                   />
                 ))}
                 {items.length === 0 && (
