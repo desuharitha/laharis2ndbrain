@@ -1,4 +1,4 @@
-import type { Task, Quadrant } from '@/lib/types';
+import type { Task, Quadrant, ParaCategory, CodeStage } from '@/lib/types';
 import { QUADRANT_META } from '@/lib/types';
 import { TaskCard } from './TaskCard';
 
@@ -8,6 +8,8 @@ interface Props {
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
   onMove: (id: string, q: Quadrant) => void;
+  onSetPara?: (id: string, p: ParaCategory) => void;
+  onSetCodeStage?: (id: string, s: CodeStage) => void;
 }
 
 const borderColors: Record<Quadrant, string> = {
@@ -24,7 +26,7 @@ const glowColors: Record<Quadrant, string> = {
   eliminate: 'shadow-quadrant-eliminate/5',
 };
 
-export function QuadrantPanel({ quadrant, tasks, onToggle, onDelete, onMove }: Props) {
+export function QuadrantPanel({ quadrant, tasks, onToggle, onDelete, onMove, onSetPara, onSetCodeStage }: Props) {
   const meta = QUADRANT_META[quadrant];
   const active = tasks.filter(t => !t.completed);
   const done = tasks.filter(t => t.completed);
@@ -39,17 +41,14 @@ export function QuadrantPanel({ quadrant, tasks, onToggle, onDelete, onMove }: P
           </h3>
           <p className="text-xs text-muted-foreground">{meta.subtitle}</p>
         </div>
-        <span className="text-xs text-muted-foreground font-mono">
-          {active.length}
-        </span>
+        <span className="text-xs text-muted-foreground font-mono">{active.length}</span>
       </div>
-
       <div className="space-y-2 flex-1">
         {active.map(t => (
-          <TaskCard key={t.id} task={t} onToggle={onToggle} onDelete={onDelete} onMove={onMove} />
+          <TaskCard key={t.id} task={t} onToggle={onToggle} onDelete={onDelete} onMove={onMove} onSetPara={onSetPara} onSetCodeStage={onSetCodeStage} showMeta />
         ))}
         {done.map(t => (
-          <TaskCard key={t.id} task={t} onToggle={onToggle} onDelete={onDelete} onMove={onMove} />
+          <TaskCard key={t.id} task={t} onToggle={onToggle} onDelete={onDelete} onMove={onMove} onSetPara={onSetPara} onSetCodeStage={onSetCodeStage} showMeta />
         ))}
         {tasks.length === 0 && (
           <p className="text-xs text-muted-foreground/50 text-center py-6">No tasks yet</p>

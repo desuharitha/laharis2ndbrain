@@ -1,63 +1,134 @@
-import { Brain } from 'lucide-react';
+import { useState } from 'react';
+import { Brain, Grid3X3, FolderOpen, Workflow } from 'lucide-react';
 import { QuickCapture } from '@/components/QuickCapture';
 import { QuadrantPanel } from '@/components/QuadrantPanel';
+import { ParaView } from '@/components/ParaView';
+import { CodePipeline } from '@/components/CodePipeline';
 import { StatsBar } from '@/components/StatsBar';
 import { useTasks } from '@/hooks/useTasks';
 import type { Quadrant } from '@/lib/types';
 
 const quadrantKeys: Quadrant[] = ['do', 'schedule', 'delegate', 'eliminate'];
 
+type ViewTab = 'eisenhower' | 'para' | 'code';
+
+const tabs: { id: ViewTab; label: string; icon: React.ReactNode }[] = [
+  { id: 'eisenhower', label: 'Eisenhower', icon: <Grid3X3 className="h-3.5 w-3.5" /> },
+  { id: 'para', label: 'PARA', icon: <FolderOpen className="h-3.5 w-3.5" /> },
+  { id: 'code', label: 'CODE', icon: <Workflow className="h-3.5 w-3.5" /> },
+];
+
 const Index = () => {
-  const { addTask, toggleTask, deleteTask, moveTask, byQuadrant, stats } = useTasks();
+  const {
+    tasks, addTask, toggleTask, deleteTask, moveTask,
+    setParaCategory, setCodeStage,
+    byQuadrant, byPara, byCodeStage, stats,
+  } = useTasks();
+  const [activeTab, setActiveTab] = useState<ViewTab>('eisenhower');
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border">
-        <div className="container max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary" />
+        <div className="container max-w-6xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                <Brain className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-base font-mono font-bold tracking-tight text-foreground">
+                  Laharis<span className="text-primary">2nd</span>Brain
+                </h1>
+                <p className="text-[10px] text-muted-foreground">Capture · Organize · Distill · Express</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg font-mono font-bold tracking-tight text-foreground">
-                Laharis<span className="text-primary">2nd</span>Brain
-              </h1>
-              <p className="text-xs text-muted-foreground">Capture · Prioritize · Execute</p>
+            <div className="hidden sm:block">
+              <StatsBar {...stats} />
             </div>
           </div>
-          <StatsBar {...stats} />
         </div>
       </header>
 
-      <main className="container max-w-6xl mx-auto px-4 py-6 space-y-6">
+      <main className="container max-w-6xl mx-auto px-4 py-4 space-y-4">
         {/* Quick Capture */}
         <section className="rounded-xl border border-border bg-card p-4">
-          <h2 className="text-sm font-mono font-semibold text-foreground mb-3 flex items-center gap-2">
+          <h2 className="text-xs font-mono font-semibold text-foreground mb-3 flex items-center gap-2">
             ⚡ Quick Capture
           </h2>
           <QuickCapture onAdd={addTask} />
         </section>
 
-        {/* Eisenhower Matrix */}
-        <section>
-          <div className="flex items-center gap-4 mb-4">
-            <h2 className="text-sm font-mono font-semibold text-foreground">Eisenhower Matrix</h2>
-            <div className="flex-1 h-px bg-border" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {quadrantKeys.map(q => (
-              <QuadrantPanel
-                key={q}
-                quadrant={q}
-                tasks={byQuadrant(q)}
-                onToggle={toggleTask}
-                onDelete={deleteTask}
-                onMove={moveTask}
-              />
-            ))}
-          </div>
-        </section>
+        {/* Mobile stats */}
+        <div className="sm:hidden">
+          <StatsBar {...stats} />
+        </div>
+
+        {/* View Tabs */}
+        <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1 w-fit">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                activeTab === tab.id
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {tab.icon}
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Views */}
+        {activeTab === 'eisenhower' && (
+          <section>
+            <div className="flex items-center gap-4 mb-4">
+              <h2 className="text-sm font-mono font-semibold text-foreground">Eisenhower Matrix</h2>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {quadrantKeys.map(q => (
+                <QuadrantPanel
+                  key={q}
+                  quadrant={q}
+                  tasks={byQuadrant(q)}
+                  onToggle={toggleTask}
+                  onDelete={deleteTask}
+                  onMove={moveTask}
+                  onSetPara={setParaCategory}
+                  onSetCodeStage={setCodeStage}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'para' && (
+          <ParaView
+            tasks={tasks}
+            onToggle={toggleTask}
+            onDelete={deleteTask}
+            onMove={moveTask}
+            onSetPara={setParaCategory}
+            onSetCodeStage={setCodeStage}
+            byPara={byPara}
+          />
+        )}
+
+        {activeTab === 'code' && (
+          <CodePipeline
+            tasks={tasks}
+            onToggle={toggleTask}
+            onDelete={deleteTask}
+            onMove={moveTask}
+            onSetPara={setParaCategory}
+            onSetCodeStage={setCodeStage}
+            byCodeStage={byCodeStage}
+          />
+        )}
       </main>
     </div>
   );
