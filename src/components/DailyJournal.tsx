@@ -1,14 +1,17 @@
 import { useState, useMemo } from 'react';
 import { format, parseISO, isToday, isYesterday, subDays } from 'date-fns';
-import { BookOpen, ChevronLeft, ChevronRight, Sparkles, Trophy, Lightbulb, ArrowRight, PenLine, Trash2 } from 'lucide-react';
+import { BookOpen, ChevronLeft, ChevronRight, Sparkles, Trophy, Lightbulb, ArrowRight, PenLine, Trash2, Sun, AlignLeft } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import type { JournalEntry, Task } from '@/lib/types';
+
+const MORNING_PAGES_TARGET = 750; // ~3 pages worth of words
 
 interface Props {
   entries: JournalEntry[];
   getEntry: (date: string) => JournalEntry | undefined;
-  saveEntry: (date: string, fields: Partial<Pick<JournalEntry, 'gratitude' | 'wins' | 'lessons' | 'tomorrow' | 'freeform'>>) => void;
+  saveEntry: (date: string, fields: Partial<Pick<JournalEntry, 'gratitude' | 'wins' | 'lessons' | 'tomorrow' | 'freeform' | 'morningPages'>>) => void;
   deleteEntry: (date: string) => void;
   todayKey: () => string;
   tasks: Task[];
