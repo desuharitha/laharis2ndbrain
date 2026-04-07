@@ -90,7 +90,11 @@ export function DailyJournal({ entries, getEntry, saveEntry, deleteEntry, todayK
     return count;
   }, [entries, today, getEntry]);
 
-  const hasContent = entry && (entry.gratitude || entry.wins || entry.lessons || entry.tomorrow || entry.freeform);
+  const hasContent = entry && (entry.gratitude || entry.wins || entry.lessons || entry.tomorrow || entry.freeform || entry.morningPages);
+
+  const morningPagesText = getValue('morningPages');
+  const morningPagesWordCount = morningPagesText.trim() ? morningPagesText.trim().split(/\s+/).length : 0;
+  const morningPagesProgress = Math.min((morningPagesWordCount / MORNING_PAGES_TARGET) * 100, 100);
 
   return (
     <div className="space-y-4">
