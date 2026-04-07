@@ -42,6 +42,12 @@
     --quadrant-delegate: 199 89% 48%;
     --quadrant-eliminate: 228 8% 40%;
 
+    /* CODE pipeline */
+    --code-capture: 280 65% 60%;
+    --code-organize: 199 89% 48%;
+    --code-distill: 38 92% 50%;
+    --code-express: 142 71% 45%;
+
     /* Glow */
     --glow-primary: 0 0% 0% / 0;
 
