@@ -45,6 +45,7 @@ export function useJournal() {
         lessons: '',
         tomorrow: '',
         freeform: '',
+        morningPages: '',
         ...fields,
         createdAt: Date.now(),
         updatedAt: Date.now(),
