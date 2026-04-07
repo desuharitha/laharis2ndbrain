@@ -48,8 +48,7 @@ export function QuickCapture({ onAdd }: Props) {
             key={q}
             type="button"
             onClick={() => setSelectedQ(q)}
-            className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${quadrantStyles[q]} ${selectedQ === q ? 'ring-1 ring-offset-1 ring-offset-background' : 'opacity-50'}`}
-            style={selectedQ === q ? { ringColor: `hsl(var(--quadrant-${q}))` } : {}}
+            className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${quadrantStyles[q]} ${selectedQ === q ? 'ring-1 ring-offset-1 ring-offset-background ring-current' : 'opacity-50'}`}
           >
             {QUADRANT_META[q].icon} {QUADRANT_META[q].label}
           </button>

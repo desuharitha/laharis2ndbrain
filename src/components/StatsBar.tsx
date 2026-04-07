@@ -22,7 +22,7 @@ export function StatsBar({ total, completed, active }: Props) {
         <span className="font-mono font-semibold text-foreground">{active}</span>
       </div>
       <div className="flex items-center gap-2 text-sm">
-        <CheckCircle2 className="h-4 w-4 text-green-500" />
+        <CheckCircle2 className="h-4 w-4 text-success" />
         <span className="text-muted-foreground">Done:</span>
         <span className="font-mono font-semibold text-foreground">{completed}</span>
         {total > 0 && <span className="text-xs text-muted-foreground">({pct}%)</span>}

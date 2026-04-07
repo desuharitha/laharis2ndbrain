@@ -22,6 +22,7 @@ export default {
         "quadrant-schedule": "hsl(var(--quadrant-schedule))",
         "quadrant-delegate": "hsl(var(--quadrant-delegate))",
         "quadrant-eliminate": "hsl(var(--quadrant-eliminate))",
+        success: "hsl(var(--success))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
