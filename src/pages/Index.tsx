@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Brain, Grid3X3, FolderOpen, Workflow, BookOpen } from 'lucide-react';
+import { Brain, Grid3X3, FolderOpen, Workflow, BookOpen, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
 import { QuickCapture } from '@/components/QuickCapture';
 import { QuadrantPanel } from '@/components/QuadrantPanel';
 import { ParaView } from '@/components/ParaView';
@@ -28,6 +30,7 @@ const Index = () => {
     byQuadrant, byPara, byCodeStage, stats,
   } = useTasks();
   const journal = useJournal();
+  const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<ViewTab>('eisenhower');
 
   return (
@@ -46,8 +49,13 @@ const Index = () => {
                 <p className="text-[10px] text-muted-foreground">Capture · Organize · Distill · Express</p>
               </div>
             </div>
-            <div className="hidden sm:block">
-              <StatsBar {...stats} />
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:block">
+                <StatsBar {...stats} />
+              </div>
+              <Button variant="ghost" size="icon" onClick={signOut} title="Sign out">
+                <LogOut className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </div>
