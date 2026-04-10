@@ -49,10 +49,14 @@ const Index = () => {
                 <p className="text-[10px] text-muted-foreground">Capture · Organize · Distill · Express</p>
               </div>
             </div>
-            <div className="hidden sm:block">
-              <StatsBar {...stats} />
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:block">
+                <StatsBar {...stats} />
+              </div>
+              <Button variant="ghost" size="icon" onClick={signOut} title="Sign out">
+                <LogOut className="h-4 w-4" />
+              </Button>
             </div>
-          </div>
         </div>
       </header>
 
