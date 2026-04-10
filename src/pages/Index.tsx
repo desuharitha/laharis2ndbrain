@@ -30,6 +30,7 @@ const Index = () => {
     byQuadrant, byPara, byCodeStage, stats,
   } = useTasks();
   const journal = useJournal();
+  const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<ViewTab>('eisenhower');
 
   return (
