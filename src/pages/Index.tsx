@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Brain, Grid3X3, FolderOpen, Workflow, BookOpen } from 'lucide-react';
+import { Brain, Grid3X3, FolderOpen, Workflow, BookOpen, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
 import { QuickCapture } from '@/components/QuickCapture';
 import { QuadrantPanel } from '@/components/QuadrantPanel';
 import { ParaView } from '@/components/ParaView';
