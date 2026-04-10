@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Brain, Grid3X3, FolderOpen, Workflow, BookOpen, LogOut } from 'lucide-react';
+import { Brain, Grid3X3, FolderOpen, Workflow, BookOpen, LogOut, HelpCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { QuickCapture } from '@/components/QuickCapture';
@@ -53,6 +54,9 @@ const Index = () => {
               <div className="hidden sm:block">
                 <StatsBar {...stats} />
               </div>
+              <Button variant="ghost" size="icon" asChild title="How to use">
+                <Link to="/how-to-use"><HelpCircle className="h-4 w-4" /></Link>
+              </Button>
               <Button variant="ghost" size="icon" onClick={signOut} title="Sign out">
                 <LogOut className="h-4 w-4" />
               </Button>
