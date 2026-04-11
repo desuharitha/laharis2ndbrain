@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      journal_entries: {
+        Row: {
+          created_at: string
+          date: string
+          freeform: string
+          gratitude: string
+          id: string
+          lessons: string
+          morning_pages: string
+          tomorrow: string
+          updated_at: string
+          user_id: string
+          wins: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          freeform?: string
+          gratitude?: string
+          id?: string
+          lessons?: string
+          morning_pages?: string
+          tomorrow?: string
+          updated_at?: string
+          user_id: string
+          wins?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          freeform?: string
+          gratitude?: string
+          id?: string
+          lessons?: string
+          morning_pages?: string
+          tomorrow?: string
+          updated_at?: string
+          user_id?: string
+          wins?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -41,6 +83,48 @@ export type Database = {
         }
         Relationships: []
       }
+      tasks: {
+        Row: {
+          code_stage: Database["public"]["Enums"]["code_stage"]
+          completed: boolean
+          created_at: string
+          id: string
+          note: string | null
+          para: Database["public"]["Enums"]["para_category"]
+          quadrant: Database["public"]["Enums"]["quadrant"]
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          code_stage?: Database["public"]["Enums"]["code_stage"]
+          completed?: boolean
+          created_at?: string
+          id?: string
+          note?: string | null
+          para?: Database["public"]["Enums"]["para_category"]
+          quadrant?: Database["public"]["Enums"]["quadrant"]
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          code_stage?: Database["public"]["Enums"]["code_stage"]
+          completed?: boolean
+          created_at?: string
+          id?: string
+          note?: string | null
+          para?: Database["public"]["Enums"]["para_category"]
+          quadrant?: Database["public"]["Enums"]["quadrant"]
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -49,7 +133,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      code_stage: "capture" | "organize" | "distill" | "express"
+      para_category: "projects" | "areas" | "resources" | "archive"
+      quadrant: "do" | "schedule" | "delegate" | "eliminate"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -176,6 +262,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      code_stage: ["capture", "organize", "distill", "express"],
+      para_category: ["projects", "areas", "resources", "archive"],
+      quadrant: ["do", "schedule", "delegate", "eliminate"],
+    },
   },
 } as const
