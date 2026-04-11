@@ -53,7 +53,7 @@ export function useJournal() {
     if (!user) return;
 
     // Map camelCase to snake_case for DB
-    const dbFields: Record<string, string> = {};
+    const dbFields: { gratitude?: string; wins?: string; lessons?: string; tomorrow?: string; freeform?: string; morning_pages?: string } = {};
     if (fields.gratitude !== undefined) dbFields.gratitude = fields.gratitude;
     if (fields.wins !== undefined) dbFields.wins = fields.wins;
     if (fields.lessons !== undefined) dbFields.lessons = fields.lessons;
