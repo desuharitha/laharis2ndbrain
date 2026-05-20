@@ -72,7 +72,7 @@ export function TaskCard({ task, onToggle, onDelete, onMove, onSetPara, onSetCod
           )}
         </div>
 
-        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+        <div className="flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity shrink-0">
           {onUpdateNote && (
             <button
               onClick={() => setNoteOpen(!noteOpen)}
